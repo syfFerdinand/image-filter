@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /app
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: docker:22.06-rc-git
     steps:
       - checkout
       - setup_remote_docker
@@ -33,6 +33,6 @@ jobs:
       - deploy:
           name: Push application Docker image
           command: |
-            docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}" \
+            docker tag app "${DOCKER_USERNAME}/image-filter" \
             echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin \
-            docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+            docker push "${DOCKER_USERNAME}/image-filter"
